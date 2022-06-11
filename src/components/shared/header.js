@@ -35,7 +35,7 @@ const Header = () => {
             <div className="col-md-10 col-lg-8 col-xl-7">
               <div className="site-heading">
                 <h1>React Blog</h1>
-                <span className="subheading">A Blog Theme by Start Bootstrap</span>
+                <span className="subheading">A Blog created with REACT</span>
               </div>
             </div>
           </div>
