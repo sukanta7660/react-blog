@@ -3,10 +3,10 @@ import './assets/js/scripts'
 import Header from "./components/shared/header";
 import Footer from "./components/shared/footer";
 import { Routes, Route } from 'react-router-dom'
-import Home from "./components/pages/Home";
-import About from "./components/pages/About";
-import Contact from "./components/pages/Contact";
-import Blog from "./components/pages/Blog";
+import Home from "./components/pages/home/Home";
+import About from "./components/pages/about/About";
+import Contact from "./components/pages/contact/Contact";
+import Blog from "./components/pages/blog/Blog";
 function App() {
   return (
     <div className="App">
