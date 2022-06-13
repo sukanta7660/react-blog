@@ -16,7 +16,7 @@ const Register = () => {
                       placeholder="Enter your name..."
                       data-sb-validations="required"/>
                     <label htmlFor="name">Name</label>
-                    <div 
+                    <div
                       className="invalid-feedback"
                       data-sb-feedback="name:required">
                       A name is required.
