@@ -17,8 +17,16 @@ const Login = () => {
                       autoComplete="off"
                       data-sb-validations="required,email"/>
                     <label htmlFor="email">Email address</label>
-                    <div className="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                    <div className="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="email:required">
+                      An email is required.
+                    </div>
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="email:email">
+                      Email is not valid.
+                    </div>
                   </div>
                   <div className="form-floating">
                     <input
@@ -28,7 +36,9 @@ const Login = () => {
                       placeholder="Enter your password"
                       data-sb-validations="required"/>
                     <label htmlFor="password">Password</label>
-                    <div className="invalid-feedback" data-sb-feedback="phone:required">
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="phone:required">
                       Password is required.
                     </div>
                   </div>

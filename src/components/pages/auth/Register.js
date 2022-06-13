@@ -16,7 +16,11 @@ const Register = () => {
                       placeholder="Enter your name..."
                       data-sb-validations="required"/>
                     <label htmlFor="name">Name</label>
-                    <div className="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                    <div 
+                      className="invalid-feedback"
+                      data-sb-feedback="name:required">
+                      A name is required.
+                    </div>
                   </div>
                   <div className="form-floating">
                     <input
@@ -26,8 +30,16 @@ const Register = () => {
                       placeholder="Enter your email..."
                       data-sb-validations="required,email"/>
                     <label htmlFor="email">Email address</label>
-                    <div className="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                    <div className="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="email:required">
+                      An email is required.
+                    </div>
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="email:email">
+                      Email is not valid.
+                    </div>
                   </div>
                   <div className="form-floating">
                     <input
@@ -50,12 +62,18 @@ const Register = () => {
                       placeholder="Enter your password"
                       data-sb-validations="required"/>
                     <label htmlFor="password">Confirm Password</label>
-                    <div className="invalid-feedback" data-sb-feedback="phone:required">Confirm Password is required.
+                    <div
+                      className="invalid-feedback"
+                      data-sb-feedback="phone:required">
+                      Confirm Password is required.
                     </div>
                   </div>
                   <br/>
                   <div className="d-none" id="submitErrorMessage">
-                    <div className="text-center text-danger mb-3">Error sending message!</div>
+                    <div
+                      className="text-center text-danger mb-3">
+                      Error sending message!
+                    </div>
                   </div>
                   <button
                     className="btn btn-primary text-uppercase"
