@@ -1,0 +1,11 @@
+.nav-link-custom {
+    padding-bottom: 0.5rem !important;
+    padding-top: 0.5rem !important;
+}
+.auth-button {
+    background: #80c2d0;
+    margin-right: 3px;
+}
+.auth-button:last-child {
+    margin-right: 0;
+}

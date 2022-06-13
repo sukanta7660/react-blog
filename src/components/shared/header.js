@@ -14,16 +14,22 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto py-4 py-lg-0">
               <li className="nav-item">
-                <Link className="nav-link px-lg-3 py-3 py-lg-4" to="/">Home</Link>
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link px-lg-3 py-3 py-lg-4" to="/about">About</Link>
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link px-lg-3 py-3 py-lg-4" to="/blogs">Blog Posts</Link>
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/blogs">Blog Posts</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link px-lg-3 py-3 py-lg-4" to="/contact">Contact</Link>
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/contact">Contact</Link>
+              </li>
+              <li className="nav-item auth-button">
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/login">Login</Link>
+              </li>
+              <li className="nav-item auth-button">
+                <Link className="nav-link px-lg-3 py-3 nav-link-custom" to="/register">Register</Link>
               </li>
             </ul>
           </div>
