@@ -9,25 +9,25 @@ export const getPosts = () => {
 };
 
 export const createPost = (data) => async (dispatch)=> {
-  const settings = data
+  const posts = data
   dispatch({
     type: actions.CREATE_POST,
-    payload: settings
+    payload: posts
   })
 }
 
-export const updatePost = (settings, data) => {
-  const updatedSettings = {...settings, data}
+export const updatePost = (post, data) => {
+  const updatedPosts = {...post, data}
   return {
     type: actions.UPDATE_POST,
-    payload: updatedSettings
+    payload: updatedPosts
   }
 };
 
-export const deletePost = (settings) => {
-  const deletedSettings = {...settings}
+export const deletePost = (post) => {
+  const deletedPost = {...post}
   return {
     type: actions.DELETE_POST,
-    payload: deletedSettings
+    payload: deletedPost
   }
 };

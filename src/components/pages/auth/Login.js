@@ -34,7 +34,12 @@ const Login = () => {
         if (response.data.error) {
           console.log(response.data.error)
         }
-        window.localStorage.setItem('accessToken', response.data.token)
+        localStorage.setItem('accessToken', response.data.token)
+
+        setState({
+          loggedIn: true
+        })
+
         clearState();
         navigate('/');
       })
