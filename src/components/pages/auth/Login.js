@@ -1,4 +1,28 @@
+import {useState} from 'react';
+import { AUTH_ENDPOINT_LOGIN } from '../../../utils/constant';
+import {api, apiRequest} from '../../../utils/util';
+
 const Login = () => {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginFormFata = {
+    email: email,
+    password: password
+  }
+
+  const handleLogin = e => {
+    api().get('sanctum/csrf-cookie').then(() => {
+      apiRequest.post(AUTH_ENDPOINT_LOGIN, loginFormFata).then(response => {
+        if (response.data.error) {
+          console.log(response.data.error)
+        }
+        console.log('success')
+      })
+    })
+  }
+
   return (
     <>
       <main className="mb-4">
@@ -11,10 +35,10 @@ const Login = () => {
                   <div className="form-floating">
                     <input
                       className="form-control"
-                      id="email"
                       type="email"
                       placeholder="Enter your email..."
                       autoComplete="off"
+                      onChange={e => setEmail(e.target.value)}
                       data-sb-validations="required,email"/>
                     <label htmlFor="email">Email address</label>
                     <div
@@ -31,8 +55,8 @@ const Login = () => {
                   <div className="form-floating">
                     <input
                       className="form-control"
-                      id="password"
                       type="password"
+                      onChange={e => setPassword(e.target.value)}
                       placeholder="Enter your password"
                       data-sb-validations="required"/>
                     <label htmlFor="password">Password</label>
@@ -48,8 +72,8 @@ const Login = () => {
                   </div>
                   <button
                     className="btn btn-primary text-uppercase"
-                    id="submitButton"
-                    type="submit">
+                    onClick={handleLogin}
+                    type="button">
                     Login
                   </button>
                 </form>
