@@ -1,24 +1,42 @@
 import {useState} from 'react';
 import { AUTH_ENDPOINT_LOGIN } from '../../../utils/constant';
 import {api, apiRequest} from '../../../utils/util';
+import { useNavigate } from 'react-router-dom'
+
+const initialState = {
+  email: '',
+  password: ''
+}
 
 const Login = () => {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const [{email, password}, setState] = useState(initialState);
+
+  const clearState = () => {
+    return setState({...initialState})
+  };
+
+  const onChangeHandler = e => {
+    const {name, value} = e.target;
+    setState(prevState => ({ ...prevState, [name]: value }));
+  }
 
   const loginFormFata = {
     email: email,
     password: password
   }
 
-  const handleLogin = e => {
+  const handleLogin = () => {
     api().get('sanctum/csrf-cookie').then(() => {
       apiRequest.post(AUTH_ENDPOINT_LOGIN, loginFormFata).then(response => {
         if (response.data.error) {
           console.log(response.data.error)
         }
-        console.log('success')
+        window.localStorage.setItem('accessToken', response.data.token)
+        clearState();
+        navigate('/');
       })
     })
   }
@@ -36,9 +54,11 @@ const Login = () => {
                     <input
                       className="form-control"
                       type="email"
+                      name="email"
                       placeholder="Enter your email..."
                       autoComplete="off"
-                      onChange={e => setEmail(e.target.value)}
+                      value={email}
+                      onChange={onChangeHandler}
                       data-sb-validations="required,email"/>
                     <label htmlFor="email">Email address</label>
                     <div
@@ -56,7 +76,9 @@ const Login = () => {
                     <input
                       className="form-control"
                       type="password"
-                      onChange={e => setPassword(e.target.value)}
+                      name="password"
+                      value={password}
+                      onChange={onChangeHandler}
                       placeholder="Enter your password"
                       data-sb-validations="required"/>
                     <label htmlFor="password">Password</label>
