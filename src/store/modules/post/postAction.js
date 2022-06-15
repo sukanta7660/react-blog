@@ -14,7 +14,7 @@ export const createPost = (data) => async (dispatch)=> {
     type: actions.CREATE_POST,
     payload: posts
   })
-}
+};
 
 export const updatePost = (post, data) => {
   const updatedPosts = {...post, data}
