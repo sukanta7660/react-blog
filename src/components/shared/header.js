@@ -1,6 +1,28 @@
 import backGround from '../../assets/img/home-bg.jpg'
-import {Link} from "react-router-dom";
-const Header = () => {
+import {getUser, updateRequireAuth} from '../../store/modules/user/userAction';
+import _ from 'lodash';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {useEffect} from 'react';
+
+const loadServerData = ({user, ...otherProps}) => {
+
+  if (_.isEmpty(user)) {
+    otherProps.getUser(true);
+  }
+
+};
+
+
+const Header = ({ ...otherProps }) => {
+
+  // loadServerData(otherProps);
+  useEffect(() => {
+
+    // load data from server
+    loadServerData(otherProps);
+  }, []);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light" id="mainNav">
@@ -51,4 +73,14 @@ const Header = () => {
   )
 }
 
-export default Header
+const mapStateToProps = (state) => ({
+  user: state.user.data,
+  isRequireAuth: state.user.requireAuth,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getUser: (updateState = false) => dispatch(getUser(updateState)),
+  updateRequireAuth: (payload) => dispatch(updateRequireAuth(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

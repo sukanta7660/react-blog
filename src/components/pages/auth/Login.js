@@ -1,49 +1,102 @@
-import {useState} from 'react';
-import { AUTH_ENDPOINT_LOGIN } from '../../../utils/constant';
-import {api, apiRequest} from '../../../utils/util';
-import { useNavigate } from 'react-router-dom'
+import React, {useState} from 'react';
+import useRedirectIfAuthenticated from '../../../hooks/userRedirectIfAuthenticated';
+import useRedirectToIntended from '../../../hooks/useRedurectToIntended';
+import {connect} from 'react-redux';
+import {login} from "../../../store/modules/user/userAction";
 
-const initialState = {
-  email: '',
-  password: ''
+const errorTypes = {
+  SUBMIT: 'SUBMIT',
+  SUBMIT_SUCCESS: 'SUBMIT_SUCCESS',
+  SUBMIT_FAIL: 'SUBMIT_FAIL',
+  FIELD_ERROR: 'FIELD_ERROR',
+};
+
+const errorDefaultState = {
+  loading: false,
+  error: false,
+  success: false,
+  message: '',
+  fields: {
+    email: false,
+    password: false,
+  }
+};
+
+function errorReducer(state, { type, payload }) {
+  switch (type) {
+    case errorTypes.SUBMIT:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case errorTypes.SUBMIT_SUCCESS:
+      return {
+        ...state,
+        error: false,
+        success: true,
+        loading: false,
+        message: payload
+      }
+
+    case errorTypes.SUBMIT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        success: false,
+        message: (payload) || 'Something went wrong, please try again later'
+      }
+
+    case errorTypes.FIELD_ERROR:
+      return {
+        ...state,
+        fields: {
+          ...state.fields,
+          ...payload
+        }
+      }
+
+    default:
+      return state;
+  }
 }
 
-const Login = () => {
+const Login = (props) => {
 
-  const navigate = useNavigate();
+  useRedirectIfAuthenticated();
 
-  const [{email, password}, setState] = useState(initialState);
+  useRedirectToIntended();
 
-  const clearState = () => {
-    return setState({...initialState})
+  const [isloading, setIsLoading] = useState(false);
+
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [email, setEmail] = useState('');
+  const emailChangeHandler = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const loginChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setCredentials({
+      ...credentials,
+      [name]: value
+    });
+
   };
 
-  const onChangeHandler = e => {
-    const {name, value} = e.target;
-    setState(prevState => ({ ...prevState, [name]: value }));
-  }
+  const handleLogin = async (e) => {
+    setIsLoading(true);
+    e.preventDefault();
 
-  const loginFormFata = {
-    email: email,
-    password: password
-  }
-
-  const handleLogin = () => {
-    api().get('sanctum/csrf-cookie').then(() => {
-      apiRequest.post(AUTH_ENDPOINT_LOGIN, loginFormFata).then(response => {
-        if (response.data.error) {
-          console.log(response.data.error)
-        }
-        localStorage.setItem('accessToken', response.data.token)
-
-        setState({
-          loggedIn: true
-        })
-
-        clearState();
-        navigate('/');
-      })
-    })
+    await props.login(credentials.email, credentials.password);
+    setIsLoading(false);
   }
 
   return (
@@ -54,7 +107,7 @@ const Login = () => {
             <div className="col-md-10 col-lg-8 col-xl-7">
               <h2>Login</h2>
               <div className="my-5">
-                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                <form id="contactForm" data-sb-form-api-token="API_TOKEN" onSubmit={handleLogin}>
                   <div className="form-floating">
                     <input
                       className="form-control"
@@ -62,8 +115,8 @@ const Login = () => {
                       name="email"
                       placeholder="Enter your email..."
                       autoComplete="off"
-                      value={email}
-                      onChange={onChangeHandler}
+                      value={credentials.email}
+                      onChange={loginChangeHandler}
                       data-sb-validations="required,email"/>
                     <label htmlFor="email">Email address</label>
                     <div
@@ -82,8 +135,8 @@ const Login = () => {
                       className="form-control"
                       type="password"
                       name="password"
-                      value={password}
-                      onChange={onChangeHandler}
+                      value={credentials.password}
+                      onChange={loginChangeHandler}
                       placeholder="Enter your password"
                       data-sb-validations="required"/>
                     <label htmlFor="password">Password</label>
@@ -99,8 +152,7 @@ const Login = () => {
                   </div>
                   <button
                     className="btn btn-primary text-uppercase"
-                    onClick={handleLogin}
-                    type="button">
+                    type="submit">
                     Login
                   </button>
                 </form>
@@ -113,4 +165,15 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.user.isLoggedIn,
+  user: state.user.data,
+  errors: state.user.errors,
+  url: state.url
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (email, password) => dispatch(login(email, password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

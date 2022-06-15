@@ -1,0 +1,3 @@
+///// URI /////
+export const URL_REDIRECT_SET = 'URL_REDIRECT_SET';
+export const URL_REDIRECT_REMOVE = 'URL_REDIRECT_REMOVE';
