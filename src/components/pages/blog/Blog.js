@@ -1,8 +1,36 @@
-const Blog = () => {
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import routes from '../../../utils/routes';
+import {urlRedirectSet} from '../../../store/modules/url/urlActions';
+import {connect} from "react-redux";
+
+const Blog = ({ props, ...otherProps }) => {
+
+  const navigate = useNavigate();
+
+  const getLocation = useLocation();
+
+
+  useEffect(() => {
+
+    if (!otherProps.user.isLoggedIn) {
+      otherProps.setUrlRedirect(getLocation.pathname, routes.login);
+      navigate(routes.login);
+    }
+
+  }, [otherProps.user]);
+
+  const [userUpdateState, setUserUpdateState] = useState(otherProps.user);
+
   return (
     <>
       <div className="container px-4 px-lg-5">
         <div className="row gx-4 gx-lg-5 justify-content-center">
+          <div className="col-md-12 text-center">
+            <h1>Hello World</h1>
+            <small>aa@aa.com</small>
+            <hr/>
+          </div>
           <div className="col-md-10 col-lg-8 col-xl-7">
             <div className="post-preview">
               <a href="src/components/pages/blog/Blog#">
@@ -66,4 +94,13 @@ const Blog = () => {
   )
 }
 
-export default Blog
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setUrlRedirect: (from, to) => dispatch(urlRedirectSet(from, to)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Blog);

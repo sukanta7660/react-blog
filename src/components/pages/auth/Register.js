@@ -2,6 +2,8 @@ import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {api, apiRequest} from '../../../utils/util';
 import {AUTH_ENDPOINT_REGISTER} from '../../../utils/constant';
+import useRedirectIfAuthenticated from '../../../hooks/userRedirectIfAuthenticated';
+import useRedirectToIntended from '../../../hooks/useRedurectToIntended';
 
 const initialState = {
   name: '',
@@ -11,6 +13,10 @@ const initialState = {
 }
 
 const Register = () => {
+
+  useRedirectIfAuthenticated();
+
+  useRedirectToIntended();
 
   const navigate = useNavigate();
 

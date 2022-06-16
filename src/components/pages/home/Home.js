@@ -1,4 +1,24 @@
-const Home = () => {
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useEffect} from 'react';
+import routes from "../../../utils/routes";
+import {urlRedirectSet} from '../../../store/modules/url/urlActions';
+import {connect} from "react-redux";
+
+const Home = ({ ...otherProps }) => {
+
+  const navigate = useNavigate();
+
+  const getLocation = useLocation();
+
+  useEffect(() => {
+
+    if (!otherProps.user.isLoggedIn) {
+      otherProps.setUrlRedirect(getLocation.pathname, routes.login);
+      // redirect
+      navigate(routes.login);
+    }
+  });
+
   return (
     <>
       <div className="container px-4 px-lg-5">
@@ -15,4 +35,13 @@ const Home = () => {
   )
 }
 
-export default Home
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setUrlRedirect: (from, to) => dispatch(urlRedirectSet(from, to)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

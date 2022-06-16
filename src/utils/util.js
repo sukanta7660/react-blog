@@ -62,6 +62,7 @@ export const putToLocalStorage = (key, value, encode = true) => {
   const finalValue = encode
     ? JSON.stringify(value)
     : value;
+
   window.localStorage.setItem(key, finalValue);
 
   return finalValue;
